@@ -1,0 +1,1265 @@
+<html>
+<head>
+	<title>房间数据</title>
+	<script type="text/javascript" src="js/jquery-2.2.4.min.js"></script>
+	<script type="text/javascript" src="js/echarts.min.js"></script>
+		<script type="text/javascript" src="js/echarts.min.js"></script>
+</head>
+<style type="text/css">
+	body{
+		color: #ffffff;
+		font-style: "微软雅黑";
+
+	}
+	.body_top{
+		height: 66px;
+		color: #ffffff;
+		line-height: 66px;
+		background-color:rgba(0,0,0,0.2);
+		padding: 0 20px;
+		
+	}
+	.body_top .body_top_left{
+		font-size: 28px;
+		float: left;
+	}
+	.body_top .body_top_right{
+		font-size: 18px;
+		float: right;
+	}
+	body{
+		background-image: url("images/background.png");
+		background-size: 100% 100%;
+		margin: 0;
+
+	}
+	.content{
+		margin-left: 20px;
+		margin-right: 20px;
+	}
+	.top-back{
+		height: 48px;
+		
+		font-size: 20;
+	}
+	.top-back .building{
+		display: inline-block;
+		height: 48px;
+		line-height: 48px;
+	
+	}
+	.top-back img{
+		display: inline;
+		padding-top: 10px;
+		vertical-align: top;
+	}
+	.top-block{
+		min-height: 100px;
+		margin-top: 10px;
+	}
+	.block{
+		display: inline-block;
+		width: 350px;
+		height: 80px;
+		background-color: #1d2851;
+		margin-right: 10px;
+	}
+	.block-div{
+		height: 80px;
+		float: left;
+	}
+	.block-div img{
+		margin-left: 10px;
+		margin-top: 10px;
+	}
+	.block-right{
+		margin-left: 20px;
+	}
+	.block-top{
+		font-size: 22;
+		padding-top: 15px;
+	}
+	.block-top span{
+		font-size: 14;
+	}
+	.block-bottom{
+		font-size: 14;
+	}
+	 .table-head{
+		height: 40px;
+		background-color: #253363;
+		line-height: 40px;
+		padding-left: 20px;
+		width: 100%；
+	}
+
+	.table-content{
+		width: 100%;
+		background-color: #1d2753;
+		border-collapse:collapse;
+
+	}
+	#table-owner td{
+		width: 20%;
+		height: 30px;
+		line-height: 30px;
+		font-size: 14;
+	}
+	.table-content td{
+		border: 1px solid #253363;
+	}
+	#table-owner .name{
+		float: left;
+		margin-left: 20px;
+	}
+	#table-owner .value{
+		float: right;
+		margin-right: 20px;
+	}
+	.lineone td{
+		padding-left: 10px;
+		font-size: 16;
+	}
+	.tds td{
+		font-size: 14;
+		padding-left: 10px;
+	}
+
+/*	#table-alarm td{
+		padding-left: 20px;
+		font-size: 14;
+	}*/
+	.room-graph,.out-graph{
+		min-width: 500px;
+		max-width: 900px;
+		width: 900px;
+		margin: 10px;
+		display: inline-block;
+		background-color: rgba(33,48,92,0.5);
+		vertical-align: top;
+	}
+	.export-button{
+		width: 80px;
+		height: 30px;
+		border-radius: 5px;
+		background-color: #4964c2;
+		border:none;
+		color: #ffffff;
+		font-size: 14;
+		float: right;
+		margin-top: 5px;
+	}
+	.operation{
+		background-color: #21305c;
+		height: 40px;
+		line-height: 40px;
+		padding-left: 20px;
+		width: 100%；
+	}
+	.operation button{
+		width: 140px;
+		border-radius: 10px;
+		height: 30px;
+		background-color: unset;
+		border:none;
+		color: #ffffff;
+		font-size: 16;
+	}
+	.operation .selected{
+		background-color: #3f83d7 !important;
+	}
+	.table{
+		width: 100%;
+
+	}
+	.pages{
+		margin-bottom: 20px;
+		margin-top: 10px;
+		height: 40px;
+		font-size: 14;
+	}
+	.pageleft {
+		display: inline-block;
+		float: left;
+		width: 400px;
+	}
+	.pageright{
+		display: inline-block;
+		float: right;
+		width:400px;
+	}
+
+	.pageright button{
+		border-width: 1px;
+		border-color: #bdbdbd;
+		border-style: solid;
+		background-color: transparent;
+		width: auto;
+		height: 30px;
+		line-height: 30px;
+		color: #ffffff;
+		border-radius: 5px;
+	}
+	.pageone{
+		margin-left: 5px;
+		margin-right: 5px;
+	}
+	.pageblock{
+		display: inline-block;
+		margin-left: 10px;
+	}
+	.selectedpage{
+		background-color: #3684e1 !important;
+	}
+	#everypage{
+		width: 74px;
+		height: 30px;
+		border-radius: 20px;
+		background-color: #253363;
+		border: none;
+		color: #ffffff;
+		font-size: 16;
+		padding: 5px;
+	}
+	#previous{
+		font-size: 18;
+		color: #f98af0;
+	}
+</style>
+<body>
+		<!-- 顶部公司名称 -->
+	<div class="body_top">
+		<div class="body_top_left">
+			济南普赛通信技术有限公司	
+		</div>
+		<div class="body_top_right">
+		</div>
+	</div>
+	<div class="content">
+		<div class="top-back">
+			<img src="images/返回-默认.png">
+			<div class="building">		
+				景苑小区11号楼房间数据
+			</div>
+		</div>
+		<div class="top-block">
+			<div class="block">
+				<div class="block-div block-left">
+					<img src="images/用热量.png">
+				</div>
+				<div class="block-div block-right">
+					<div class="block-top" id="yrl">
+					
+						<span>kwh</span>
+					</div>
+					<div class="block-bottom">
+						用热量
+					</div>
+				</div>
+			</div>
+
+			<div class="block">
+				<div class="block-div block-left">
+					<img src="images/回水温度.png">
+				</div>
+				<div class="block-div block-right">
+					<div class="block-top" id="hswd">
+						
+						<span>°C</span>
+					</div>
+					<div class="block-bottom">
+						回水温度
+					</div>
+				</div>
+			</div>
+
+			<div class="block">
+				<div class="block-div block-left">
+					<img src="images/室内温度.png">
+				</div>
+				<div class="block-div block-right">
+					<div class="block-top" id="snwd">
+						
+						<span>°C</span>
+					</div>
+					<div class="block-bottom">
+						室内温度
+					</div>
+				</div>
+			</div>
+
+			<div class="block">
+				<div class="block-div block-left">
+					<img src="images/单耗.png">
+				</div>
+				<div class="block-div block-right">
+					<div class="block-top" id="dh">
+						
+						<span>w/㎡▪h</span>
+					</div>
+					<div class="block-bottom">
+						单耗
+					</div>
+				</div>
+			</div>
+
+			<div class="block">
+				<div class="block-div block-left">
+					<img src="images/-单位流量.png">
+				</div>
+				<div class="block-div block-right">
+					<div class="block-top" id="dwll">
+						
+						<span>kg/㎡▪h</span>
+					</div>
+					<div class="block-bottom">
+						单位流量
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="owner-info">
+			<div class="table-head">
+				户主信息
+				<span style="float: right;margin:12px;" onclick="toggleOwner();">
+					<img src="images/下--拉.png">
+				</span>
+			</div>
+			<table class="table-content" id="table-owner">
+				<tbody>		
+
+					<tr>
+						<td id="xiaoqu">
+							<span class="name">
+							 小区：
+						   </span>
+						   <span class="value">
+							 					
+						   </span>
+						</td>
+						<td id="loudong">
+							<span class="name">
+							 楼栋：
+						   </span>
+						   <span class="value">
+										
+						   </span>
+						</td>
+						<td id="danyuan">
+							<span class="name">
+							 单元：
+						   </span>
+						   <span class="value">
+												
+						   </span>
+						</td>
+						<td id="grzt">
+							<span class="name">
+							 供热状态:
+						   </span>
+						   <span class="value">
+							 				
+						   </span>
+						</td>
+						<td id="cnmj">
+							<span class="name">
+							 采暖面积:
+						   </span>
+						   <span class="value">
+							 				
+						   </span>
+						</td>
+					</tr>
+					<tr>
+						<td id="fangjian">
+							<span class="name">
+							 房间：
+						   </span>
+						   <span class="value">
+											
+						   </span>
+						</td>
+						<td id="huzhu">
+							<span class="name">
+							 户主：
+						   </span>
+						   <span class="value">
+							 					
+						   </span>
+						</td>
+						<td id="lxdh">
+							<span class="name">
+							联系电话：
+						   </span>
+						   <span class="value">
+							 					
+						   </span>
+						</td>
+						<td id="rlb">
+							<span class="name">
+							 热量表：
+						   </span>
+						   <span class="value">
+							 					
+						   </span>
+						</td>
+						<td id="cwjd">
+							<span class="name">
+							 测温节点：
+						   </span>
+						   <span class="value">
+							 					
+						   </span>
+						</td>
+					</tr>
+					<tr>
+						<td id="zhlx">
+							<span class="name">
+							 住户类型：
+						   </span>
+						   <span class="value">
+							 					
+						   </span>
+						</td>
+						<td id="cnfs">
+							<span class="name">
+							 采暖方式：
+						   </span>
+						   <span class="value">
+												
+						   </span>
+						</td>
+						<td id="fwwz">
+							<span class="name">
+							房屋位置：
+						   </span>
+						   <span class="value">
+							 					
+						   </span>
+						</td>
+						<td id="jzmj">
+							<span class="name">
+							 建筑面积(㎡)
+						   </span>
+						   <span class="value">
+						 					
+						   </span>
+						</td>
+						<td>
+							<span class="name">
+							 
+						   </span>
+						   <span class="value">
+							 				
+						   </span>
+						</td>
+					</tr>
+					<tr>
+						<td id="gnkh">
+							<span class="name">
+							 供暖卡号：
+						   </span>
+						   <span class="value">
+											
+						   </span>
+						</td>
+						<td id="sffs">
+							<span class="name">
+							 收费方式：
+						   </span>
+						   <span class="value">
+							 					
+						   </span>
+						</td>
+						<td id="tsbs">
+							<span class="name">
+							 特殊标识：
+						   </span>
+						   <span class="value">
+							 					
+						   </span>
+						</td>
+						<td id="famen">
+							<span class="name">
+							 阀门：
+						   </span>
+						   <span class="value">
+							 					
+						   </span>
+						</td>
+						<td>
+							<span class="name">
+							 
+						   </span>
+						   <span class="value">
+							 				
+						   </span>
+						</td>
+					</tr>													
+				</tbody>
+			</table>
+		</div>
+		<div class="owner-info" style="margin-top: 20px;">
+			<div class="table-head">
+				故障报警
+				<span style="float: right;margin:12px;"  onclick="toggleInfo();">
+					<img src="images/下--拉.png">
+				</span>
+			</div>
+			<table class="table-content" id="table-alarm">
+				<tbody>	
+					<tr class="lineone">
+						<td>
+							日期
+						</td>
+						<td>
+							报警时间
+						</td>
+						<td>
+							故障内容
+						</td>
+						<td>
+							报修时间
+						</td>
+						<td>
+							处理时间
+						</td>
+						<td>
+							恢复时间
+						</td>
+						<td>
+							值班员
+						</td>
+						<td>
+							维修员
+						</td>
+						<td>
+							处理情况
+						</td>
+						<td>
+							备注
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="graph">
+			<div class="room-graph">
+				<div class="table-head">
+					故障报警
+
+					<span style="float: right;margin:12px;"  onclick="toggleIn();">
+						<img src="images/下--拉.png">
+					</span>
+					<button class="export-button">
+						导出数据
+					</button>
+				</div>
+				<div id="room-chart" style="width: 100%;height:300px;" ></div>
+				 
+			</div>
+			<div class="out-graph">
+				<div class="table-head">
+					故障报警
+
+					<span style="float: right;margin:12px;"  onclick="toggleOut();">
+						<img src="images/下--拉.png">
+					</span>
+					<button class="export-button">
+						导出数据
+					</button>
+				</div>
+				<div id="out-chart" style="width: 100%;height:300px;" ></div>				
+			</div>
+		</div>
+		<div class="pagination">
+			<div class="table-head">
+				历史数据
+
+					<span style="float: right;margin:12px;"  onclick="toggleHistory();">
+						<img src="images/下--拉.png">
+					</span>
+				<button class="export-button">
+						导出数据
+					</button>
+			</div>
+			<div id="history">
+				<div class="operation">
+					<button class="selected">调控历史记录</button>
+					<button>热量表历史数据</button>
+					<button>测温历史数据</button>
+					<button>用热量历史数据</button>
+				</div>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>
+								序号
+							</th>
+							<th>
+								调控时间
+							</th>
+							<th>
+								阀控模式
+							</th>
+							<th>
+								阀控属性
+							</th>
+							<th>
+								阀控依据
+							</th>
+							<th>
+								调控人
+							</th>
+							<th>
+								执行时间
+							</th>
+							<th>
+								执行结果
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+				<div class="pages">
+					<div class="pageleft">
+						<div class="pageblock">
+							每页显示
+							<select id="everypage">
+								<option>5</option>
+								<option>10</option>
+								<option>15</option>
+								<option>20</option>
+							</select>	条		
+						</div>
+						<div class="pageblock">
+							共<span id="total1">
+							</span>页
+							当前第<span id="previous"></span>/
+								<span id="total2">
+								</span>页
+						</div>
+					</div>
+					<div class="pageright">
+						<button id="firstPage">首页</button>
+						<button id="prePage">上一页</button>
+						<div id="editpage" style="display: inline-block;">
+<!-- 							<span id="leftlue">……</span>
+							<button id="pone" class="pageone selectedpage">1</button>
+							<button id="ptwo" class="pageone">2</button>
+							<button id="pthree" class="pageone">3</button>
+							<span id="rightlue">……</span> -->
+					   </div>
+						<button id="nextPage">下一页</button>
+						<button id="lastPage">尾页</button>
+					</div>
+				</div>				
+			</div>
+
+		</div>
+	</div>
+	<script type="text/javascript" src="js/highlight.min.js"></script>
+	<script type="text/javascript" src="js/jquery.pagination.js"></script>
+	<script type="text/javascript">
+
+		function toggleOwner(argument) {
+			$('#table-owner').slideToggle();
+		}
+		function toggleInfo(argument) {
+			$('#table-alarm').slideToggle();
+		}
+		function toggleIn(){
+			$("#room-chart").slideToggle();
+		}
+		function toggleOut(){
+			$("#out-chart").slideToggle();
+		}
+		function toggleHistory(){
+			$("#history").slideToggle();
+		}
+
+		function getYestoday(date){    
+			var yesterday_milliseconds=date.getTime()-1000*60*60*24;     
+			var yesterday = new Date();     
+			yesterday.setTime(yesterday_milliseconds);     
+			  
+			var strYear = yesterday.getFullYear();  
+			var strDay = yesterday.getDate();  
+			var strMonth = yesterday.getMonth()+1;
+			if(strMonth<10)  
+			{  
+				strMonth="0"+strMonth;  
+			}  
+			datastr = strYear+"-"+strMonth+"-"+strDay;
+			return datastr;
+		  }
+
+		getDayData();
+		getOwnerInfo();
+		getAlarmInfo();
+		getGraph();
+
+		function getDayData(){
+			 var today = new Date();
+			 var date=getYestoday(today);
+			 $.ajax({
+			 	url:'http://192.168.0.136:1661/ScaleWebService/dayData/custDayData?id=1&date='+date,
+			 	async:true,
+			 	type:'GET',
+			 	dataType:'json',
+			 	success:function(data){
+			 		$("#yrl").prepend(data.DayHeat);
+			 		$("#hswd").prepend(data.OutTemp);
+			 		$("#snwd").prepend(data.InTemp);
+			 		$("#dh").prepend(data.Energy);
+			 		$("#dwll").prepend(data.Flow);
+
+			 	}
+			 });
+		}
+		function getOwnerInfo(){
+			 $.ajax({
+			 	url:'http://192.168.0.136:1661/ScaleWebService/custom/getcustom?id=1',
+			 	async:true,
+			 	type:'GET',
+			 	dataType:'json',
+			 	success:function(data){
+			 		$("#xiaoqu .value").html(data.ZName);
+			 		$("#loudong .value").html(data.BName);
+			 		$("#danyuan .value").html(data.UnitNum+"单元");
+			 		if(data.Heating=="true"){
+			 			$("#grzt .value").html("供暖");
+			 		}else{
+			 			$("#grzt .value").html("报停");
+			 		}
+			 		$("#cnmj .value").html(data.HeatArea);
+			 		$("#fangjian .value").html(data.RoomNum);
+			 		$("#huzhu .value").html(data.Host);
+			 		$("#lxdh .value").html(data.Phone);
+			 		$("#rlb .value").html(data.MeterAddr);
+			 		$("#cwjd .value").html(data.TempAddr);
+			 		$("#zhlx .value").html(data.CustType.Name);
+			 		$("#cnfs .value").html(data.HeatType.Name);
+			 		$("#fwwz .value").html(data.Location);
+			 		$("#jzmj .value").html(data.RoomArea);
+			 		$("#gnkh .value").html(data.code);
+			 		if(data.ChargeMode=="0"){
+			 			$("#sffs .value").html("面积");
+			 		}else{
+			 			$("#sffs .value").html("计量");
+			 		}
+			 		$("#tsbs .value").html(data.SpecialMark);
+			 		$("#famen .value").html(data.ValveAddr);
+
+
+
+			 	}
+			 });
+		}
+		function getAlarmInfo(){
+			$.ajax({
+			 	url:'http://192.168.0.136:1661/ScaleWebService/alarm/getuntreatedalarmlistbyroomid?zoneId=1&roomId=1',
+			 	async:true,
+			 	type:'GET',
+			 	dataType:'json',
+			 	success:function(data){
+			 		var html="";
+			 		$(data).each(function(index){
+			 			var alarm=data[index];
+			 			var depose=alarm.DeposeResult;
+			 			if(depose=="未处理"){
+			 				depose="<span style='color:red'>"+depose+"</span>";
+			 			}
+			 			html=html+"<tr class='tds'><td>"+alarm.StartTime+"</td><td>"+alarm.StartTime+"</td><td>"+alarm.AlarmName+"</td><td>"+"-"+"</td><td>"+alarm.DeposeTime+"</td><td>"+"-"+"</td><td>"+"-"+"</td><td>"+alarm.DeposeUser+"</td><td>"+alarm.depose+"</td><td>"+"-"+"</td></tr>"
+			 		});
+
+			 		$("#table-alarm tbody").append(html);
+			 	}
+			 });
+		}
+
+		function getGraph(){
+			var dates=new Array();
+			var rooms=new Array();
+			var outs=new Array();
+		    $.ajax({
+			 	url:'http://192.168.0.136:1661/ScaleWebService/dayData/custHistDayDataInLastHeatSeasonByEndDate?id=1',
+			 	async:false,
+			 	type:'GET',
+			 	dataType:'json',
+			 	success:function(data){
+			 	
+			 		$(data).each(function(index){
+			 			 var room=data[index];
+			 			// console.log(room.Date);
+			 			if(room.RoomTemp=="-1"){
+			 				rooms.push(null);
+			 			}else{
+			 				rooms.push(room.RoomTemp);
+			 			}
+			 			if(room.OutTemp=="-1"){
+			 				outs.push(null);
+			 			}else{
+			 				outs.push(room.OutTemp);
+			 			}
+			 			dates.push(room.Date);
+			 			
+			 		});
+			 	}
+			});		
+
+	        // 基于准备好的dom，初始化echarts实例
+	        var roomchart = echarts.init(document.getElementById('room-chart'));	
+	                // 指定图表的配置项和数据
+			optionroom = {
+				title: {
+					text:'室内平均温度',
+					textStyle: {
+						color: '#ffffff',
+						fontFamily: '微软雅黑'
+					}
+				},
+			    tooltip: {
+				        trigger: 'axis',
+				        axisPointer: {
+				            type: 'shadow'
+				        },
+				        formatter: "平均温度 <br/>{b} : {c}°C"
+				    },
+			    xAxis: {
+			        type: 'category',
+			        boundaryGap: false,
+			        data: dates,
+			        axisLine:{
+	                   lineStyle:{ 
+	                         color:'#324384',//x坐标轴的颜色
+	                          } 
+	                 },
+	                axisLabel: {
+	                    textStyle: {
+	                       color: '#fff',//坐标值的具体的颜色
+	                        }
+	                },
+
+
+			    },
+			    yAxis: {
+			        type: 'value',
+	          		axisLabel: {
+	                    formatter: '{value}',
+	                    textStyle: {
+	                        color: '#fff',//坐标数值的具体的颜色
+	                         }
+	                      },
+	                     axisLine:{
+	                       lineStyle:{ 
+	                             color:'#324384',//y坐标轴的颜色
+	                            } 
+	                        },
+	                            //网格样式  x轴的网格线显示
+	                     splitLine: {
+	                        show: true,
+	                        lineStyle:{
+	                            color: ['#324384'],
+	                            width: 1,
+	                            type: 'solid'
+	                            }
+	                       }	             	        
+			    },
+			    series: [{
+			        data: rooms,
+			        type: 'line',
+			        itemStyle: {
+	                     normal: {
+	                      areaStyle:{color: '#35314A'},//设置面积颜色
+						  lineStyle:{color:'#c96f12',width:2.5,}//设置线条颜色
+	                              }
+	                          },
+			        areaStyle: {}
+			    }]
+						};	
+			 // 使用刚指定的配置项和数据显示图表。
+	        roomchart.setOption(optionroom);
+           var outchart= echarts.init(document.getElementById('out-chart'));
+			optionout = {
+				title: {
+					text:'回水温度',
+					textStyle: {
+						color: '#ffffff',
+						fontFamily: '微软雅黑'
+					}
+				},
+			    tooltip: {
+				        trigger: 'axis',
+				        axisPointer: {
+				            type: 'shadow'
+				        },
+				        formatter: "平均温度 <br/>{b} : {c}°C"
+				    },				
+			    xAxis: {
+			        type: 'category',
+			        boundaryGap: false,
+			        data: dates,
+			        axisLine:{
+	                   lineStyle:{ 
+	                         color:'#324384',//x坐标轴的颜色
+	                          } 
+	                 },
+	                axisLabel: {
+	                    textStyle: {
+	                       color: '#fff',//坐标值的具体的颜色
+	                        }
+	                },
+
+
+			    },
+			    yAxis: {
+			        type: 'value',
+	          		axisLabel: {
+	                    formatter: '{value}',
+	                    textStyle: {
+	                        color: '#fff',//坐标数值的具体的颜色
+	                         }
+	                      },
+	                     axisLine:{
+	                       lineStyle:{ 
+	                             color:'#324384',//y坐标轴的颜色
+	                            } 
+	                        },
+	                            //网格样式  x轴的网格线显示
+	                     splitLine: {
+	                        show: true,
+	                        lineStyle:{
+	                            color: ['#324384'],
+	                            width: 1,
+	                            type: 'solid'
+	                            }
+	                       }	             	        
+			    },
+			    series: [{
+			        data: outs,
+			        type: 'line',
+			        itemStyle: {
+	                     normal: {
+	                      areaStyle:{color: '#342767'},//设置面积颜色
+						  lineStyle:{color:'#ec06df',width:2.5,}//设置线条颜色
+	                              }
+	                          },
+			        areaStyle: {}
+			    }]
+						};
+	        outchart.setOption(optionout)
+		}
+		var his=new Array();
+		var len=5;
+		var page=1;
+		var totalpage=0;
+		var previouspage=1;
+		var datalen;
+		var maxpage=3;
+		getControlHistoryInfo();
+
+		function getControlHistoryInfo(){
+			var date = new Date();
+			var start=today();
+			var end=sevenDay();
+		    $.ajax({
+			 	url: "http://192.168.0.119:8780/ctrlMode/roomHistMode?roomId=1&start=2018-10-17T00:00:00&end=2018-10-24T00:00:00",
+			 	async:false,
+			 	type:'GET',
+			 	dataType:'json',
+			 	success:function(data){
+			 		his=data;
+			 		datalen=his.length;
+			 		console.log("数据长度"+datalen);
+			 		totalpage=Math.ceil(datalen/len);
+			 		$("#previous").html(1);
+			 		$("#total1").html(totalpage);
+			 		$("#total2").html(totalpage);
+			 		if(totalpage<3){
+					 	maxpage=totalpage;
+					}else{
+						maxpage=3;
+					}
+			 		/*
+			 				<span id="leftlue">……</span>
+							<button id="pone" class="pageone selectedpage">1</button>
+							<button id="ptwo" class="pageone">2</button>
+							<button id="pthree" class="pageone">3</button>
+							<span id="rightlue">……</span>
+			 		*/
+			 		pages();
+			 		showData(page,len);
+
+			 	}
+			});				
+		}
+		//------------------------------分页----------------------------//
+		function showData(p,l){
+			var html="";
+		
+				var en;
+				var st;
+				if(p>1){
+					st=(p-1)*l;
+					en=parseInt(st)+parseInt(len);
+				}
+				else{
+					st=0;
+					en=len;
+				}
+				
+				// var totalpage=l/len;
+				for(var i=st;i<en;i++){
+					if (i<datalen){
+						var info=his[i];
+						var se=i+1;
+						html=html+"<tr><td>"+se+"</td><td>"+"-"+"</td><td>"+info.CtrlMode+"</td><td>"+"-"+"</td><td>"+"-"+"</td><td>"
+						+"-"+"</td><td>"+"-"+"</td><td>"+"-"+"</td></tr>";	
+						}
+
+				}	
+				$("#history tbody").html(html);
+			
+		}
+		$("#firstPage").on("click",function(){
+			
+			page=1;
+			$("#previous").html(page);
+			pages();
+			showData(1,len)
+		})
+		$("#lastPage").on("click",function(){
+			page=totalpage;
+			$("#previous").html(page);
+			pages();
+			showData(totalpage,len)
+		})
+
+		//上一页
+		$("#nextPage").on("click",function(){
+			if(page==totalpage){
+				page=totalpage;
+				$("#previous").html(page);
+				showData(totalpage,len);
+			}else{
+				page++;
+				$("#previous").html(page);
+				pages();
+				showData(page,len);
+			}
+
+		});
+		//下一页
+		$("#prePage").on("click",function(){
+			if(page==1){
+				$("#previous").html(page);
+				showData(1,len);
+			}else{
+				page--;
+				$("#previous").html(page);
+				pages();
+				showData(page,len);
+			}
+		});
+		$("#everypage").change(function(){
+			len=$("#everypage").val();
+			//console.log(len);
+			$("#previous").html("1");
+			totalpage=Math.ceil(datalen/len);
+			$("#total1").html(totalpage);
+			$("#total2").html(totalpage);
+			page=1;
+			if(totalpage<3){
+			 	maxpage=totalpage;
+			}else{
+				maxpage=3;
+			}
+			pages();
+			showData(page,len);
+		});
+		$(".pageright ").on("click",".pageone",function(){
+			 		/*
+			 				<span id="leftlue">……</span>
+							<button id="pone" class="pageone selectedpage">1</button>
+							<button id="ptwo" class="pageone">2</button>
+							<button id="pthree" class="pageone">3</button>
+							<span id="rightlue">……</span>
+			 		*/
+			// var id=$(this).attr("id");
+			// var text=$(this).text();
+			// showData(text,len);
+			// if(id=="p3"){
+			// 	console.log("p3");
+			// 	var html="";
+			// 	if(text<totalpage){
+				
+			// 		html="<span id='leftlue'>……</span>";
+			// 		var last=parseInt(text)+parseInt(2);
+			// 		if(last<totalpage){
+			// 			console.log("加上2后小于总页数");
+			// 			var flag=1;
+			// 			for(var i=text;i<=last;i++){
+			// 				if(i==text){
+			// 					html=html+"<button id='p"+flag+"' class='pageone selectedpage'>"+text+"<button>";
+			// 					flag++;
+			// 				}else{
+			// 					html=html+"<button id='p"+flag+"' class='pageone'>"+text+"<button>";
+			// 					flag++;
+			// 				}
+			// 			}
+			// 			html=html+"<span id='rightlue'>……</span>";
+			// 			$("#editpage").html(html);
+			// 		}else{
+			// 			console.log("加上2后大于总页数");
+			// 			var flag=1;
+			// 			console.log("显示"+text+"到"+totalpage);
+			// 			for(var i=text;i<=totalpage;i++){
+			// 				if(i==text){
+			// 					html=html+"<button id='p"+flag+"' class='pageone selectedpage'>"+i+"</button>";
+			// 					flag++;
+			// 				}else{
+			// 					html=html+"<button id='p"+flag+"' class='pageone'>"+i+"</button>";
+			// 					flag++;
+			// 				}
+			// 			}
+			// 			$("#editpage").html(html);
+			// 		}
+			// 	}else{
+			// 		$(".pageright .pageone").removeClass("selectedpage");
+			// 		$(this).addClass("selectedpage");
+			// 	}
+			// }else if(id=="p1"){
+			// 	console.log("p1");
+			// 	var html="";
+			// 	if(text>1){
+			// 		var first=parseInt(text)-parseInt(2);
+			// 		if(first>1){
+			// 			var flag=1;
+			// 			html="<span id='leftlue'>……</span>"
+			// 			for(var i=first;i<=text;i++){
+			// 				if(i==text){
+			// 					html=html+"<button id='p"+flag+"' class='pageone selectedpage'>"+i+"</button>";
+			// 					flag++;
+			// 				}else{
+			// 					html=html+"<button id='p"+flag+"' class='pageone'>"+i+"</button>";
+			// 					flag++;
+			// 				}
+			// 			}
+			// 		}else{
+			// 			$(".pageright .pageone").removeClass("selectedpage");
+			// 			$(this).addClass("selectedpage");
+			// 		}
+			// 	}else{
+			// 		$(".pageright .pageone").removeClass("selectedpage");
+			// 		$(this).addClass("selectedpage");
+			// 	}
+			// }else{
+				// console.log("无变化");
+
+				var text=$(this).text();
+				page=text;
+				console.log("要显示"+page);
+				pages();
+				showData(page,len);
+				// $(".pageright .pageone").removeClass("selectedpage");
+				// $(this).addClass("selectedpage");
+			// }
+		});
+
+		//根据当前页显示page
+		function pages(){
+			$("#previous").html(page);
+			if(totalpage<=3){
+				console.log("小于3页");
+				var html="";
+				for(var i=1;i<=totalpage;i++){
+					if(i==page){
+			 			html=html+"<button class='pageone selectedpage'>"+i+"</button>";
+			 		}else{
+			 			html=html+"<button class='pageone'>"+i+"</button>";;
+			 			}
+				}
+				$("#editpage").html(html);
+			}
+			else{
+				console.log("大于3页");
+				var html="";
+				var p=totalpage-2;
+				if(page==1||page==2){
+					console.log("page==1||page==2");
+					for(var i=1;i<=3;i++){
+						if(i==page){
+			 				html=html+"<button class='pageone selectedpage' style='background-color: #3684e1 !important'>"+i+"</button>";
+			 			}else{
+			 				html=html+"<button class='pageone'>"+i+"</button>";;
+			 				}
+					}
+					html=html+"<span>……</span>"
+					$("#editpage").html(html);
+				}
+				else if(page==totalpage||page==(totalpage-1)){
+					console.log("page==totalpage||page==(totalpage-1)");
+					html=html+"<span>……</span>"
+					for(var i=p;i<=totalpage;i++){
+						if(i==page){
+			 				html=html+"<button class='pageone selectedpage'>"+i+"</button>";
+			 			}else{
+			 				html=html+"<button class='pageone'>"+i+"</button>";;
+			 				}
+					}
+					$("#editpage").html(html);
+				}else{
+					var t=parseInt(page)-parseInt(1);
+					var e=parseInt(page)+parseInt(1);
+					html=html+"<span>……</span>"
+					for(var i=t;i<=e;i++){
+						if(i==page){
+			 				html=html+"<button class='pageone selectedpage'>"+i+"</button>";
+			 			}else{
+			 				html=html+"<button class='pageone'>"+i+"</button>";;
+			 				}
+					}
+					html=html+"<span>……</span>"
+					$("#editpage").html(html);
+				}
+			}
+		}
+
+		//------------------------- 分页结束-----------------------//
+		//获取今日时间
+		function today(){
+			var date = new Date();
+			var year = date.getFullYear();
+			var month = date.getMonth()+1;
+			var day = date.getDate();
+			var hour = date.getHours();
+			var minute = date.getMinutes();
+			var second = date.getSeconds();
+			return(year+'-'+month+'-'+day+"T"+hour+':'+minute+':'+second)			
+		}
+		//获取七天前时间
+		function sevenDay(){
+			var date = new Date();
+			var yesterday_milliseconds=date.getTime()-1000*60*60*24*7;     
+			var yesterday = new Date();     
+			yesterday.setTime(yesterday_milliseconds);  
+			var strYear = yesterday.getFullYear();  
+			var strDay = yesterday.getDate();  
+			var strMonth = yesterday.getMonth()+1;
+			var h=yesterday.getHours();
+			var m=yesterday.getMinutes();
+			var s=yesterday.getSeconds();
+			if(strMonth<10)  
+			{  
+				strMonth="0"+strMonth;  
+			}  
+			datastr = strYear+"-"+strMonth+"-"+strDay+"T"+h+":"+m+":"+s;   
+			return(datastr);
+		}
+
+
+	</script>
+</body>
+</html>
